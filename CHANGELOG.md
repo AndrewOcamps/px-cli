@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.3.1] - 2026-07-09
+
+### Added
+- PyPI publishing via GitHub Actions release workflow
+- PyPI version/license/python badges in README
+- Missing options documentation in commands.md (19 commands)
+- `Download` URL in pyproject.toml project URLs
+
+### Changed
+- README: updated install instructions, quickstart, badges
+- LICENSE: GPL-3.0 → MIT (matching pyproject.toml)
+- CHANGELOG: corrected PyPI claim → GitHub Release only
+
 ## [0.3.0] - 2026-07-09
 
 ### Added
@@ -18,7 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Context manager support for `ProxmoxClient`
 - Comprehensive test suite: 42 unit + integration tests
 - GitHub Actions CI: lint (ruff) + typecheck (mypy) + test (pytest) on Python 3.10-3.12
-- GitHub Actions Release workflow: auto-publish to PyPI on version tags
+- GitHub Actions Release workflow: build package and create GitHub Release on version tags
 - Pre-commit hooks: ruff, mypy, trailing-whitespace, end-of-file-fixer
 
 ### Changed
