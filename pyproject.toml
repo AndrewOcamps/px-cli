@@ -31,6 +31,7 @@ dependencies = [
 
 [project.urls]
 Homepage = "https://github.com/AndrewOcamps/px-cli"
+Download = "https://pypi.org/project/px-cli/"
 Source = "https://github.com/AndrewOcamps/px-cli"
 Changelog = "https://github.com/AndrewOcamps/px-cli/blob/main/CHANGELOG.md"
 
