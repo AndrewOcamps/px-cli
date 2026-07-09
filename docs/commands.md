@@ -290,6 +290,12 @@ Manage storage pools and contents.
 | `--output` | `-o` | Output format (table, json) |
 | `--color` | `-c` | Enable colored output |
 
+### `px storage info` options
+
+| Option | Shorthand | Description |
+|--------|-----------|-------------|
+| `--color` | `-c` | Enable colored output |
+
 ### Examples
 
 ```bash
@@ -314,6 +320,15 @@ Manage VM/container backups (vzdump).
 | `px backup restore <vmid> <file>` | Restore from a backup |
 | `px backup delete <vmid>` | Delete backups for a VM |
 
+### `px backup list` options
+
+| Option | Shorthand | Description |
+|--------|-----------|-------------|
+| `--storage` | `-s` | Storage pool to list backups from |
+| `--node` | `-n` | Node name |
+| `--output` | `-o` | Output format (table, json) |
+| `--color` | `-c` | Enable colored output |
+
 ### `px backup create` options
 
 | Option | Shorthand | Default | Description |
@@ -324,6 +339,15 @@ Manage VM/container backups (vzdump).
 | `--force` | `-f` | | Skip confirmation |
 | `--wait` | | | Wait for completion |
 
+### `px backup delete` options
+
+| Option | Shorthand | Description |
+|--------|-----------|-------------|
+| `--keep` | `-k` | Volume name pattern to keep (delete all others) |
+| `--storage` | `-s` | Storage pool (default: local) |
+| `--node` | `-n` | Node name |
+| `--force` | `-f` | Skip confirmation |
+
 ### Examples
 
 ```bash
@@ -332,6 +356,7 @@ px backup create 100 --storage nfs --mode stop --wait
 px backup list --storage nfs
 px backup restore 100 vzdump-qemu-100-2024-01-01.vma.zst --storage nfs --wait
 px backup delete 100
+px backup delete 100 --keep weekly
 ```
 
 ---
@@ -348,11 +373,36 @@ Manage LXC templates.
 | `px template download <template>` | Download an LXC template |
 | `px template remove <template>` | Remove a downloaded template |
 
+### `px template list` options
+
+| Option | Shorthand | Description |
+|--------|-----------|-------------|
+| `--node` | `-n` | Node name |
+| `--output` | `-o` | Output format (table, json) |
+| `--color` | `-c` | Enable colored output |
+
+### `px template download` options
+
+| Option | Shorthand | Description |
+|--------|-----------|-------------|
+| `--node` | `-n` | Node name |
+| `--wait` | | Wait for download to complete |
+
+### `px template remove` options
+
+| Option | Shorthand | Description |
+|--------|-----------|-------------|
+| `--storage` | `-s` | Storage pool (default: local) |
+| `--node` | `-n` | Node name |
+| `--force` | `-f` | Skip confirmation |
+
 ### Examples
 
 ```bash
 px template list
+px template list --output json
 px template download ubuntu-22.10-standard_22.10-1_amd64.tar.zst
+px template download debian-12-standard --wait
 px template remove ubuntu-22.10-standard_22.10-1_amd64.tar.zst --force
 ```
 
@@ -372,6 +422,16 @@ Manage Proxmox nodes.
 | `px node services <node>` | List services on a node |
 | `px node reboot <node>` | Reboot a node |
 
+### Options
+
+| Command | Options |
+|---------|---------|
+| `px node list` | `--output` / `-o` (table, json), `--color` / `-c` |
+| `px node status <node>` | `--color` / `-c` |
+| `px node info <node>` | `--color` / `-c` |
+| `px node services <node>` | `--output` / `-o` (table, json), `--color` / `-c` |
+| `px node reboot <node>` | `--force` / `-f` (skip confirmation) |
+
 ### Examples
 
 ```bash
@@ -379,6 +439,7 @@ px node list --color
 px node status pve1
 px node info pve2
 px node services pve1
+px node services pve1 --output json
 px node reboot pve1 --force
 ```
 
@@ -399,11 +460,21 @@ Manage resource pools.
 | `px pool add <name> <vmid>...` | Add VMs/containers to a pool |
 | `px pool remove <name> <vmid>...` | Remove VMs/containers from a pool |
 
+### Options
+
+| Command | Options |
+|---------|---------|
+| `px pool list` | `--output` / `-o` (table, json), `--color` / `-c` |
+| `px pool create <name>` | `--comment` / `-c` (pool description) |
+| `px pool delete <name>` | `--force` / `-f` (skip confirmation) |
+| `px pool show <name>` | `--color` / `-c` |
+
 ### Examples
 
 ```bash
 px pool list --output json
 px pool create production
+px pool create production --comment "Production workloads"
 px pool show production
 px pool add production 100 101 102
 px pool remove production 102
@@ -425,11 +496,21 @@ Cluster information.
 | `px cluster log` | Show cluster log |
 | `px cluster next-id` | Get the next available VMID |
 
+### Options
+
+| Command | Options |
+|---------|---------|
+| `px cluster status` | `--output` / `-o` (table, json), `--color` / `-c` |
+| `px cluster resources` | `--type` / `-t` (vm, node, storage), `--output` / `-o` (table, json), `--color` / `-c` |
+| `px cluster log` | `--max` / `-n` (max log entries, default: 50) |
+
 ### Examples
 
 ```bash
 px cluster status --color
+px cluster status --output json
 px cluster resources --type vm
+px cluster resources --output json
 px cluster log --max 100
 px cluster next-id
 ```
@@ -445,6 +526,15 @@ Manage firewall rules.
 | Command | Description |
 |---------|-------------|
 | `px firewall list [--vmid <id>]` | List firewall rules (VM, node, or cluster level) |
+
+### `px firewall list` options
+
+| Option | Shorthand | Description |
+|--------|-----------|-------------|
+| `--vmid` | | VM/container ID (omit for node-level rules) |
+| `--node` | `-n` | Node name |
+| `--output` | `-o` | Output format (table, json) |
+| `--color` | `-c` | Enable colored output |
 
 ### Examples
 

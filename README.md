@@ -6,22 +6,18 @@ AWS CLI.
 
 ## Prerequisites
 
-- Python 3.8+
+- Python 3.10+
 
-## Quick Install
+## Install
 
 ```bash
-python3 install.py
+pip install px-cli
 ```
 
-The installer will guide you through setting up the virtual environment,
-installing dependencies, and configuring your Proxmox connection.
-
-## Manual Install
+Or from source:
 
 ```bash
-python3 -m venv .venv
-.venv/bin/pip install -r requirements.txt
+pip install -e .
 ```
 
 ## Quick Start (with login)
