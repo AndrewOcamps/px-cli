@@ -8,16 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## [0.3.1] - 2026-07-09
 
 ### Added
-- PyPI publishing via GitHub Actions release workflow
-- PyPI version/license/python badges in README
 - Missing options documentation in commands.md (19 commands)
-- `Download` URL in pyproject.toml project URLs
 
 ### Changed
-- README: updated install instructions, quickstart, badges
+- README: updated install instructions, quickstart
 - LICENSE: GPL-3.0 → MIT (matching pyproject.toml)
 - CHANGELOG: corrected PyPI claim → GitHub Release only
-- Renamed PyPI package from `px-cli` to `proxmoxcli` (name conflict with `px`)
 
 ## [0.3.0] - 2026-07-09
 

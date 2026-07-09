@@ -22,14 +22,6 @@ jobs:
           pip install build
           python3 -m build
 
-      - name: Publish to PyPI
-        env:
-          TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
-        run: |
-          pip install twine
-          twine upload --verbose dist/*
-
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:

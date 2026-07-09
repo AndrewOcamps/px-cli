@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "proxmoxcli"
+name = "px-cli"
 version = "0.3.1"
 description = "A command-line tool for managing Proxmox VE clusters"
 readme = "README.md"
@@ -31,7 +31,7 @@ dependencies = [
 
 [project.urls]
 Homepage = "https://github.com/AndrewOcamps/px-cli"
-Download = "https://pypi.org/project/proxmoxcli/"
+Download = "https://github.com/AndrewOcamps/px-cli/releases"
 Source = "https://github.com/AndrewOcamps/px-cli"
 Changelog = "https://github.com/AndrewOcamps/px-cli/blob/main/CHANGELOG.md"
 
