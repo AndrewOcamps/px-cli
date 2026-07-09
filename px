@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -e
+DIR="$(cd "$(dirname "$0")" && pwd)"
+VENV_PYTHON="$DIR/.venv/bin/python3"
+PYTHON="$VENV_PYTHON"
+if [ ! -f "$VENV_PYTHON" ]; then
+    PYTHON="python3"
+fi
+export PYTHONPATH="$DIR/src:$PYTHONPATH"
+exec "$PYTHON" -m px_cli "$@"
