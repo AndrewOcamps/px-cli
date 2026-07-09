@@ -1,8 +1,8 @@
 # px — Proxmox CLI
 
-[![PyPI version](https://img.shields.io/pypi/v/px-cli)](https://pypi.org/project/px-cli/)
-[![Python versions](https://img.shields.io/pypi/pyversions/px-cli)](https://pypi.org/project/px-cli/)
-[![License](https://img.shields.io/pypi/l/px-cli)](https://github.com/AndrewOcamps/px-cli/blob/main/LICENSE)
+[![PyPI version](https://img.shields.io/pypi/v/proxmoxcli)](https://pypi.org/project/proxmoxcli/)
+[![Python versions](https://img.shields.io/pypi/pyversions/proxmoxcli)](https://pypi.org/project/proxmoxcli/)
+[![License](https://img.shields.io/pypi/l/proxmoxcli)](https://github.com/AndrewOcamps/px-cli/blob/main/LICENSE)
 
 `px` is a command-line tool for managing Proxmox VE clusters — VMs, containers,
 storage, backups, snapshots, nodes, pools, firewall, and more. Inspired by the
@@ -13,7 +13,7 @@ AWS CLI.
 ### From PyPI (recommended)
 
 ```bash
-pip install px-cli
+pip install proxmoxcli
 ```
 
 ### From source
