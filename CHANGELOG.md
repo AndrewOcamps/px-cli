@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.3.1] - 2026-07-09
+
+### Added
+- PyPI publishing via GitHub Actions release workflow
+- PyPI version/license/python badges in README
+- Missing options documentation in commands.md (19 commands)
+- `Download` URL in pyproject.toml project URLs
+
+### Changed
+- README: updated install instructions, quickstart, badges
+- LICENSE: GPL-3.0 → MIT (matching pyproject.toml)
+- CHANGELOG: corrected PyPI claim → GitHub Release only
+
 ## [0.3.0] - 2026-07-09
 
 ### Added
