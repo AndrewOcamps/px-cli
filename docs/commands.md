@@ -1,5 +1,14 @@
 # px commands
 
+## Global options
+
+| Option | Description |
+|--------|-------------|
+| `--version` | Show version (`px X.Y.Z`) and exit |
+| `--help` | Show help and exit |
+| `--install-completion` | Install shell completion |
+| `--show-completion` | Show shell completion |
+
 ---
 
 ## `px login`
