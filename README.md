@@ -14,6 +14,16 @@ cd px-cli
 pip install -e .
 ```
 
+### Direct install (no clone needed)
+
+```bash
+# Latest version
+pip install git+https://github.com/AndrewOcamps/px-cli.git
+
+# Specific version
+pip install git+https://github.com/AndrewOcamps/px-cli.git@v0.3.1
+```
+
 ## Quick Start
 
 ```bash

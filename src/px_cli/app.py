@@ -7,8 +7,11 @@ A command-line tool for managing Proxmox VE clusters,
 VMs, containers, storage, backups, and more.
 """
 
+import sys
+
 import typer
 
+from . import __version__
 from .commands.backup import backup_app
 from .commands.cluster import cluster_app
 from .commands.firewall import firewall_app
@@ -23,7 +26,17 @@ app = typer.Typer(
     name="px",
     help="px — Proxmox CLI: manage VMs, containers, storage, backups, and more.",
     no_args_is_help=True,
+    invoke_without_command=True,
 )
+
+
+@app.callback()
+def main_callback(
+    version: bool = typer.Option(False, "--version", help="Show version and exit"),
+) -> None:
+    if version:
+        typer.echo(f"px {__version__}")
+        raise typer.Exit()
 
 app.command(name="login")(login)
 app.command(name="logout")(logout)
