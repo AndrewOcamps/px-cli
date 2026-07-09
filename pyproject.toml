@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "proxmox-cli"
+name = "px-cli"
 version = "0.3.0"
 description = "A command-line tool for managing Proxmox VE clusters"
 readme = "README.md"
@@ -30,9 +30,9 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/AndrewOcamps/promox-cli"
-Source = "https://github.com/AndrewOcamps/promox-cli"
-Changelog = "https://github.com/AndrewOcamps/promox-cli/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/AndrewOcamps/px-cli"
+Source = "https://github.com/AndrewOcamps/px-cli"
+Changelog = "https://github.com/AndrewOcamps/px-cli/blob/main/CHANGELOG.md"
 
 [project.scripts]
 px = "px_cli.app:main"
