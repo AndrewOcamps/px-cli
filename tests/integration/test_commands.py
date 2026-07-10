@@ -32,3 +32,8 @@ class TestCliBasic:
         result = runner.invoke(app, ["backup", "--help"])
         assert result.exit_code == 0
         assert "Manage" in result.stdout
+
+    def test_vm_top_help(self):
+        result = runner.invoke(app, ["vm", "top", "--help"])
+        assert result.exit_code == 0
+        assert "resource" in result.stdout.lower()

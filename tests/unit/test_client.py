@@ -106,6 +106,33 @@ class TestProxmoxClientActions:
         assert len(vms) == 1
         assert vms[0]["vmid"] == 100
 
+    def test_list_resources_with_metrics(self, requests_mocker, mock_client):
+        requests_mocker.get(
+            "https://proxmox.example.com:8006/api2/json/cluster/resources",
+            json={
+                "data": [
+                    {
+                        "vmid": 100, "type": "qemu", "name": "web-vm",
+                        "status": "running", "node": "pve1",
+                        "cpu": 0.75, "maxcpu": 4,
+                        "mem": 6442450944, "maxmem": 8589934592,
+                        "maxdisk": 107374182400,
+                        "netin": 1024000, "netout": 512000,
+                        "diskread": 2048000, "diskwrite": 1024000,
+                    },
+                ]
+            },
+        )
+        resources = mock_client.list_resources("vm")
+        assert len(resources) == 1
+        r = resources[0]
+        assert r["cpu"] == 0.75
+        assert r["mem"] == 6442450944
+        assert r["maxmem"] == 8589934592
+        assert r["maxdisk"] == 107374182400
+        assert r["netin"] == 1024000
+        assert r["netout"] == 512000
+
     def test_list_containers(self, requests_mocker, mock_client):
         requests_mocker.get(
             "https://proxmox.example.com:8006/api2/json/cluster/resources",

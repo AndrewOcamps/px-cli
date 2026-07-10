@@ -200,6 +200,65 @@ def print_storage_table(resources: list[dict], color: bool) -> None:
     console.print(table)
 
 
+def print_vm_top_table(resources: list[dict], color: bool) -> None:
+    console = Console(no_color=not color)
+    table = Table(
+        title="VM Resource Usage",
+        title_style=Style(bold=True),
+        header_style=(
+            Style(color="cyan", bold=True) if color else Style(bold=True)
+        ),
+        border_style="blue" if color else None,
+    )
+    table.add_column("VMID", justify="right")
+    table.add_column("Name")
+    table.add_column("Node")
+    table.add_column("Type")
+    table.add_column("CPU", justify="right")
+    table.add_column("Memory", justify="right")
+    table.add_column("Disk", justify="right")
+    table.add_column("Net IN", justify="right")
+    table.add_column("Net OUT", justify="right")
+
+    for r in resources:
+        cpu_pct = r.get("cpu", 0) * 100
+        mem_used = r.get("mem", 0)
+        mem_total = r.get("maxmem", 0)
+        disk_total = r.get("maxdisk", 0)
+        mem_pct = (mem_used / mem_total * 100) if mem_total else 0
+
+        cpu_label = f"{cpu_pct:.1f}%"
+        mem_label = (
+            f"{human_size(mem_used)} / {human_size(mem_total)} ({mem_pct:.0f}%)"
+        )
+        disk_label = human_size(disk_total)
+        net_in_label = human_size(r.get("netin", 0))
+        net_out_label = human_size(r.get("netout", 0))
+
+        if color:
+            if cpu_pct > 90:
+                cpu_label = f"[red bold]{cpu_label}[/]"
+            elif cpu_pct > 70:
+                cpu_label = f"[yellow]{cpu_label}[/]"
+            if mem_pct > 90:
+                mem_label = f"[red bold]{mem_label}[/]"
+            elif mem_pct > 70:
+                mem_label = f"[yellow]{mem_label}[/]"
+
+        table.add_row(
+            str(r.get("vmid", "")),
+            r.get("name", ""),
+            r.get("node", ""),
+            r.get("type", ""),
+            cpu_label,
+            mem_label,
+            disk_label,
+            net_in_label,
+            net_out_label,
+        )
+    console.print(table)
+
+
 def matches(resource: dict, filters: dict) -> bool:
     for key, value in filters.items():
         if value is None:

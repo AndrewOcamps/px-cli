@@ -1,4 +1,6 @@
 
+import time
+
 import typer
 from rich.console import Console
 from rich.panel import Panel
@@ -15,6 +17,7 @@ from ..utils import (
     matches,
     print_json,
     print_vm_table,
+    print_vm_top_table,
     resolve_vmids,
 )
 from .snapshot import snapshot_app
@@ -339,6 +342,61 @@ def status(
             typer.echo("")
 
 
+# ── top ───────────────────────────────────────────────────────────────────────
+
+
+def top(
+    vmids: list[int] | None = typer.Argument(
+        None, help="VM or container IDs to monitor (all if omitted)"
+    ),
+    watch: bool = typer.Option(
+        False, "--watch", "-w", help="Live-refreshing display"
+    ),
+    interval: int = typer.Option(
+        5, "--interval", "-i", help="Refresh interval in seconds (with --watch)"
+    ),
+    output: str = typer.Option(
+        "table", "--output", "-o", help="Output format (table, json)"
+    ),
+    color: bool = typer.Option(
+        False, "--color", "-c", help="Enable colored output"
+    ),
+    f_node: str | None = typer.Option(
+        None, "--node", help="Filter by node name"
+    ),
+):
+    """Show resource usage for VMs and containers."""
+    client = get_client()
+
+    def fetch_metrics() -> list[dict]:
+        resources = client.list_resources("vm")
+        if f_node:
+            resources = [r for r in resources if r.get("node") == f_node]
+        if vmids:
+            vmid_set = set(vmids)
+            resources = [r for r in resources if r.get("vmid") in vmid_set]
+        resources.sort(key=lambda r: r.get("cpu", 0), reverse=True)
+        return resources
+
+    if watch:
+        try:
+            while True:
+                resources = fetch_metrics()
+                if output == "json":
+                    print_json(resources, color)
+                else:
+                    print_vm_top_table(resources, color)
+                time.sleep(interval)
+        except KeyboardInterrupt:
+            raise typer.Exit()
+    else:
+        resources = fetch_metrics()
+        if output == "json":
+            print_json(resources, color)
+        else:
+            print_vm_top_table(resources, color)
+
+
 # ── Register commands on vm_app ──────────────────────────────────────────────
 
 vm_app.command(name="start")(start)
@@ -348,3 +406,4 @@ vm_app.command(name="reboot")(reboot)
 vm_app.command(name="suspend")(suspend)
 vm_app.command(name="resume")(resume)
 vm_app.command(name="status")(status)
+vm_app.command(name="top")(top)
