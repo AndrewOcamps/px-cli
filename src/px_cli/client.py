@@ -152,6 +152,9 @@ class ProxmoxClient:
             f"/api2/json/nodes/{node}/{vmtype}/{vmid}/status/current"
         )
 
+    def get_config(self, node: str, vmtype: str, vmid: int) -> dict:
+        return self.raw_get(f"/api2/json/nodes/{node}/{vmtype}/{vmid}/config")
+
     # ── Task Polling ────────────────────────────────────────────────
 
     def wait_for_task(self, node: str, upid: str, timeout: int = 120) -> bool:

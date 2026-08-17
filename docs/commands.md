@@ -239,6 +239,39 @@ px vm status 100 117 120
 
 ---
 
+### `px vm info`
+
+Show the configuration of a VM or container.
+
+#### Synopsis
+
+```
+px vm info <vmid> [--output table|json] [--color]
+```
+
+#### Options
+
+| Option | Shorthand | Description | Default |
+|--------|-----------|-------------|---------|
+| `--output` | `-o` | Output format: `table` or `json` | `table` |
+| `--color` | `-c` | Enable colored output | off |
+
+#### Output
+
+- Identity: VMID, Name, Status, Node, Type
+- vCPUs (cores × sockets), Memory, OS type, Boot order, Boot disk, Tags
+- All remaining configuration keys, e.g. disks (`scsi0`, `ide2`), NICs (`net0`), cloud-init settings
+
+#### Examples
+
+```bash
+px vm info 100
+px vm info 100 --output json
+px vm info 120 --color
+```
+
+---
+
 ### `px vm snapshot`
 
 Manage VM/container snapshots.
