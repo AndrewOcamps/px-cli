@@ -37,3 +37,8 @@ class TestCliBasic:
         result = runner.invoke(app, ["vm", "top", "--help"])
         assert result.exit_code == 0
         assert "resource" in result.stdout.lower()
+
+    def test_vm_info_help(self):
+        result = runner.invoke(app, ["vm", "info", "--help"])
+        assert result.exit_code == 0
+        assert "configuration" in result.stdout.lower()

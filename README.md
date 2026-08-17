@@ -71,6 +71,8 @@ px vm suspend 100                  # pause
 px vm resume 100                   # resume
 px vm status 100                   # detailed status panel
 px vm status 100 117               # multiple VMs
+px vm info 100                     # show VM/container configuration
+px vm info 100 --output json       # configuration as JSON
 px vm top                          # resource usage for all VMs
 px vm top --watch                  # live-refreshing display
 px vm top 100 200                  # specific VMs only
@@ -160,7 +162,7 @@ Most commands support `--output json` and `--color` flags.
 |---------|-------------|
 | `login` | Authenticate with username/password, create API token |
 | `logout` | Remove local configuration |
-| `vm` | List, start, stop, shutdown, reboot, suspend, resume, status, top, snapshot |
+| `vm` | List, start, stop, shutdown, reboot, suspend, resume, status, info, top, snapshot |
 | `storage` | List pools, browse contents, pool info |
 | `backup` | Create, list, restore, delete vzdump backups |
 | `template` | List, download, remove LXC templates |

@@ -180,6 +180,26 @@ class TestProxmoxClientActions:
         result = mock_client.start("pve1", "qemu", 100)
         assert result["upid"] == "UPID:pve1:0001:..."
 
+    def test_get_config(self, requests_mocker, mock_client):
+        requests_mocker.get(
+            "https://proxmox.example.com:8006/api2/json/nodes/pve1/qemu/100/config",
+            json={
+                "data": {
+                    "vmid": 100,
+                    "name": "test-vm",
+                    "cores": 4,
+                    "sockets": 1,
+                    "memory": 8589934592,
+                    "ostype": "l26",
+                    "scsi0": "local-lvm:vm-100-disk-0,size=100G",
+                }
+            },
+        )
+        config = mock_client.get_config("pve1", "qemu", 100)
+        assert config["vmid"] == 100
+        assert config["cores"] == 4
+        assert config["memory"] == 8589934592
+
     def test_login(self, requests_mocker, mock_client):
         requests_mocker.post(
             "https://proxmox.example.com:8006/api2/json/access/ticket",

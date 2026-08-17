@@ -5,6 +5,7 @@ import typer
 from rich.console import Console
 from rich.panel import Panel
 from rich.style import Style
+from rich.table import Table
 from rich.text import Text
 
 from ..utils import (
@@ -342,6 +343,97 @@ def status(
             typer.echo("")
 
 
+# ── info ──────────────────────────────────────────────────────────────────────
+
+CONFIG_BASIC_KEYS = {
+    "vmid",
+    "name",
+    "status",
+    "node",
+    "type",
+    "cores",
+    "sockets",
+    "memory",
+    "ostype",
+    "boot",
+    "bootdisk",
+    "tags",
+}
+
+
+def config_rows(config: dict) -> list[tuple[str, str]]:
+    rows: list[tuple[str, str]] = [
+        ("VMID", str(config.get("vmid", ""))),
+        ("Name", str(config.get("name", ""))),
+        ("Status", str(config.get("status", ""))),
+        ("Node", str(config.get("node", ""))),
+        ("Type", str(config.get("type", ""))),
+    ]
+    cores = config.get("cores")
+    sockets = config.get("sockets")
+    if cores or sockets:
+        rows.append(("vCPUs", str(int(cores or 1) * int(sockets or 1))))
+    if config.get("memory"):
+        memory_bytes = int(config["memory"]) * 1024 * 1024
+        rows.append(("Memory", human_size(memory_bytes)))
+    if config.get("ostype"):
+        rows.append(("OS Type", str(config["ostype"])))
+    if config.get("boot"):
+        rows.append(("Boot", str(config["boot"])))
+    if config.get("bootdisk"):
+        rows.append(("Boot Disk", str(config["bootdisk"])))
+    if config.get("tags"):
+        rows.append(("Tags", str(config["tags"])))
+    for key in sorted(set(config) - CONFIG_BASIC_KEYS):
+        rows.append((key, str(config[key])))
+    return rows
+
+
+def info(
+    vmid: int = typer.Argument(..., help="VM or container ID"),
+    output: str = typer.Option(
+        "table", "--output", "-o", help="Output format (table, json)"
+    ),
+    color: bool = typer.Option(
+        False, "--color", "-c", help="Enable colored output"
+    ),
+):
+    """Show basic configuration of a VM or container."""
+    client = get_client()
+    r = client.find_resource(vmid)
+    if not r:
+        typer.echo(f"Error: VMID {vmid} not found", err=True)
+        raise typer.Exit(1)
+
+    config = client.get_config(r["node"], r["type"], vmid)
+    config["vmid"] = vmid
+    config.setdefault("name", r.get("name", ""))
+    config.setdefault("status", r.get("status", ""))
+    config.setdefault("node", r.get("node", ""))
+    config.setdefault("type", r.get("type", ""))
+
+    if output == "json":
+        print_json(config, color)
+        return
+
+    console = Console(no_color=not color)
+    table = Table(
+        title=f"Configuration of {vmid} ({config.get('name', '')})",
+        title_style=Style(bold=True),
+        header_style=(
+            Style(color="cyan", bold=True) if color else Style(bold=True)
+        ),
+        border_style="blue" if color else None,
+        show_header=False,
+    )
+    table.add_column("Property", style="bold")
+    table.add_column("Value")
+
+    for prop, value in config_rows(config):
+        table.add_row(prop, value)
+    console.print(table)
+
+
 # ── top ───────────────────────────────────────────────────────────────────────
 
 
@@ -406,4 +498,5 @@ vm_app.command(name="reboot")(reboot)
 vm_app.command(name="suspend")(suspend)
 vm_app.command(name="resume")(resume)
 vm_app.command(name="status")(status)
+vm_app.command(name="info")(info)
 vm_app.command(name="top")(top)
